@@ -1,0 +1,11 @@
+on:
+  push:
+  pull_request:
+  merge_group:
+    types: [checks_requested]
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo OK
