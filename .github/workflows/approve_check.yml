@@ -1,5 +1,5 @@
 on:
-  pull_request:
+  pull_request_target:
     types: [auto_merge_enabled]
 
 jobs:
@@ -15,7 +15,7 @@ jobs:
         run: |
           deno run -A ./approve_check.ts
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.OWNER_TOKEN }}
           GH_EVENT: ${{ toJson(github.event) }}
     outputs:
       approved: ${{ steps.approve_check.outputs.approved }}
