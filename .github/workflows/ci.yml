@@ -8,4 +8,4 @@ jobs:
   main:
     runs-on: ubuntu-latest
     steps:
-      - run: OK
+      - run: echo OK
