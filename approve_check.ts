@@ -9,9 +9,12 @@ if (!ghToken) {
 }
 const octokit = new OctokitCore({ auth: ghToken });
 
-const event = JSON.parse(
-  Deno.args[0],
-) as webhooks.PullRequestAutoMergeEnabledEvent;
+const ghEvent = Deno.env.get("GH_EVENT");
+if (!ghEvent) {
+  actions.setFailed("GH_EVENT not set");
+  Deno.exit(1);
+}
+const event = JSON.parse(ghEvent) as webhooks.PullRequestAutoMergeEnabledEvent;
 const owner = event.repository.owner.login;
 const repo = event.repository.name;
 const prNumber = event.pull_request.number;

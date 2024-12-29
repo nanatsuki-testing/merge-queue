@@ -13,9 +13,10 @@ jobs:
       - name: Check if the PR is approved
         id: approve_check
         run: |
-          deno run -A ./approve_check.ts ${{ toJson(toJson(github.event)) }}
+          deno run -A ./approve_check.ts
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_EVENT: ${{ toJson(github.event) }}
     outputs:
       approved: ${{ steps.approve_check.outputs.approved }}
 
