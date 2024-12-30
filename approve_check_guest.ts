@@ -57,9 +57,8 @@ if (!check) {
 
 if (check.conclusion === "success") {
   console.log("Check approved");
-  actions.setOutput("approved", "true");
   Deno.exit(0);
 }
 
 console.log("Check not approved");
-actions.setOutput("approved", "false");
+Deno.exit(1);
