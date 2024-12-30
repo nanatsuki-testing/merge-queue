@@ -1,9 +1,11 @@
 on:
   pull_request_target:
     types: [auto_merge_enabled]
+  merge_group:
+    types: [checks_requested]
 
 jobs:
-  check:
+  approve:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,12 +19,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.OWNER_TOKEN }}
           GH_EVENT: ${{ toJson(github.event) }}
-    outputs:
-      approved: ${{ steps.approve_check.outputs.approved }}
-
-  approve:
-    runs-on: ubuntu-latest
-    needs: check
-    if: ${{ needs.check.outputs.approved == 'true' }}
-    steps:
-      - run: echo OK
+          GH_REF: ${{ github.ref }}
