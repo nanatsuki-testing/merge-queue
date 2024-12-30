@@ -8,15 +8,12 @@ jobs:
   approve:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: denoland/setup-deno@v2
+      - uses: sevenc-nanashi/approve-counter@main
         with:
-          deno-version: v2.x
-      - name: Check if the PR is approved
-        id: approve_check
-        run: |
-          deno run -A ./approve_check.ts
-        env:
-          GH_TOKEN: ${{ secrets.OWNER_TOKEN }}
-          GH_EVENT: ${{ toJson(github.event) }}
-          GH_REF: ${{ github.ref }}
+          token: ${{ secrets.OWNER_TOKEN }}
+
+          required_score: 2
+
+          score_rules: |
+            #maintainer: 2
+            #reviewer: 1
