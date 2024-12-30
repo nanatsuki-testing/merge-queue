@@ -55,10 +55,27 @@ if (!check) {
   Deno.exit(1);
 }
 
-if (check.conclusion === "success") {
-  console.log("Check approved");
-  Deno.exit(0);
+let success = false;
+// タイムアウト：20秒
+for (let i = 0; i < 20; i++) {
+  const { data: job } = await octokit.request(
+    "GET /repos/{owner}/{repo}/actions/jobs/{job_id}",
+    {
+      owner,
+      repo,
+      job_id: check.id,
+    },
+  );
+  if (job.status === "completed") {
+    success = job.conclusion === "success";
+    break;
+  }
+  console.log(`Waiting for job #${check.id} to complete...`);
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+}
+if (!success) {
+  console.log("Approve check did not succeed");
+  Deno.exit(1);
 }
 
-console.log("Check not approved");
-Deno.exit(1);
+console.log("Approve check succeeded");

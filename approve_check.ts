@@ -50,7 +50,6 @@ const { data: reviewers } = await octokit.rest.teams.listMembersInOrg({
 
 if (maintainers.some((m) => m.login === event.sender.login)) {
   console.log("Force approval: Maintainer requested auto-merge");
-  actions.setOutput("approved", "true");
   Deno.exit(0);
 }
 
@@ -63,9 +62,8 @@ const approveReviews = reviews.data.filter(
 
 if (approveReviews.length >= 2) {
   console.log("Approved by 2 reviewers");
-  actions.setOutput("approved", "true");
   Deno.exit(0);
 }
 
 console.log("Not approved");
-actions.setOutput("approved", "false");
+Deno.exit(1);
