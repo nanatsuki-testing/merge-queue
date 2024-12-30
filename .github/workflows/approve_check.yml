@@ -19,3 +19,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.OWNER_TOKEN }}
           GH_EVENT: ${{ toJson(github.event) }}
+          GH_REF: ${{ github.ref }}
