@@ -1,6 +1,8 @@
 on:
   pull_request_target:
     types: [auto_merge_enabled]
+  merge_group:
+    types: [checks_requested]
 
 jobs:
   approve:
@@ -17,5 +19,3 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.OWNER_TOKEN }}
           GH_EVENT: ${{ toJson(github.event) }}
-    outputs:
-      approved: ${{ steps.approve_check.outputs.approved }}
